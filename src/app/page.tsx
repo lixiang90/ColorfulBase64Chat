@@ -270,7 +270,7 @@ export default function ChatApp() {
         // 恢复Date对象
         const restoredHistory: {[friendId: string]: ChatMessage[]} = {};
         Object.keys(parsedHistory).forEach(friendId => {
-          restoredHistory[friendId] = parsedHistory[friendId].map((msg: any) => ({
+          restoredHistory[friendId] = parsedHistory[friendId].map((msg: ChatMessage) => ({
             ...msg,
             timestamp: new Date(msg.timestamp)
           }));
@@ -336,7 +336,7 @@ export default function ChatApp() {
     // 先生成标准Base64编码
     try {
       standardBase64 = btoa(unescape(encodeURIComponent(text)));
-    } catch (e) {
+    } catch {
       throw new Error('文本编码失败');
     }
 
@@ -415,7 +415,7 @@ export default function ChatApp() {
     if (!encodedText) return '';
 
     try {
-      let processedText = encodedText;
+      const processedText = encodedText;
       const separator = useSmartSeparator ? smartSeparator(chars) : customSeparator;
 
       // 检查是否有歧义来决定是否移除分隔符
@@ -483,7 +483,7 @@ export default function ChatApp() {
           const originalText = DeflateCompression.decompress(compressedArray);
           
           return originalText;
-        } catch (deflateError) {
+        } catch {
           throw new Error('DEFLATE解码错误：数据格式不正确');
         }
       } else {
@@ -747,13 +747,13 @@ export default function ChatApp() {
           return;
         }
         
-        let importedHistory: {[friendId: string]: ChatMessage[]} = {};
+        const importedHistory: {[friendId: string]: ChatMessage[]} = {};
         let importedCount = 0;
         
         if (importData.chatHistory) {
           // 全部聊天记录导入
           Object.keys(importData.chatHistory).forEach(friendId => {
-            const messages = importData.chatHistory[friendId].map((msg: any) => ({
+            const messages = importData.chatHistory[friendId].map((msg: ChatMessage) => ({
               ...msg,
               timestamp: new Date(msg.timestamp)
             }));
@@ -763,7 +763,7 @@ export default function ChatApp() {
         } else if (importData.messages && importData.friend) {
           // 单个好友聊天记录导入
           const friendId = importData.friend.id;
-          const messages = importData.messages.map((msg: any) => ({
+          const messages = importData.messages.map((msg: ChatMessage) => ({
             ...msg,
             timestamp: new Date(msg.timestamp)
           }));
