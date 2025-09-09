@@ -532,7 +532,7 @@ export default function ChatApp() {
 
   // 智能分隔符选择
   const smartSeparator = (chars: string[]): string => {
-    const separators = ['|', '·', '•', '◦', '▪', '▫', '◆', '◇', '★', '☆'];
+    const separators = ['|', '·', '•', '◦', '▪', '▫', '◆', '◇', '★', '☆']; 
     for (const sep of separators) {
       if (!chars.includes(sep)) {
         return sep;
